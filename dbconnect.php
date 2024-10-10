@@ -7,8 +7,8 @@ try {
     $dbpassword = "";
 
     // Data Source Name
-    $dsn = "mysql:host=$host;dbname=$dbname";
-    $conn = new PDO($dsn,$dbuser,$dbpassword);
+    $dsn = "mysql:host=$host;dbname=$dbname"; //mysql ထဲက host ထဲက $host ကို ထုတ်တာ mysql ထဲက dbname ထဲက $dbname ကို ထုတ်တာ
+    $conn = new PDO($dsn,$dbuser,$dbpassword); 
 
     // or
 
