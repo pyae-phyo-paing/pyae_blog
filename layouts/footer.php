@@ -1,4 +1,15 @@
 <!-- Side widgets-->
+ <?php
+ 
+ include "dbconnect.php";
+ 
+ $sql = "SELECT * FROM categories"; 
+ // $stmt = $conn->query($sql);
+ $stmt = $conn->prepare($sql); //stmt = statement, $conn ထဲက နေ sql ထဲက dataတွေကို ပြန်ခွဲထုတ်တာ
+ $stmt->execute(); 
+ $category_tags = $stmt->fetchAll();
+ 
+ ?>
 <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
@@ -14,22 +25,23 @@
                     <div class="card mb-4">
                         <div class="card-header">Categories</div>
                         <div class="card-body">
+                            
+                            <?php
+                            foreach ( $category_tags as $category_tag) {
+                            ?>
+
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col">
                                     <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Web Design</a></li>
-                                        <li><a href="#!">HTML</a></li>
-                                        <li><a href="#!">Freebies</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">JavaScript</a></li>
-                                        <li><a href="#!">CSS</a></li>
-                                        <li><a href="#!">Tutorials</a></li>
+                                        <li><a href="detail.php?id=<?= $category_tag['id']?>"><?= $category_tag['name']?></a></li>
                                     </ul>
                                 </div>
                             </div>
+
+                            <?php
+                                }
+                            ?>
+
                         </div>
                     </div>
                     <!-- Side widget-->

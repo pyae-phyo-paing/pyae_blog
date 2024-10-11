@@ -2,7 +2,8 @@
     include "layouts/navbar.php";
     include "dbconnect.php";
 
-    $sql = "SELECT * FROM posts ORDER BY id DESC"; 
+    // 18446744073709551615 သည် MySQL ၏ အကြီးဆုံး value
+    $sql = "SELECT * FROM posts ORDER BY id DESC LIMIT 18446744073709551615 OFFSET 1"; 
     // $stmt = $conn->query($sql);
     $stmt = $conn->prepare($sql); //stmt = statement, $conn ထဲက နေ sql ထဲက dataတွေကို ပြန်ခွဲထုတ်တာ
     $stmt->execute(); 
@@ -10,6 +11,12 @@
     // echo $posts[0]["title"];
     // echo "<br>";
     // var_dump($posts);
+
+    $sql = "SELECT * FROM posts ORDER BY id DESC LIMIT 1"; 
+    // $stmt = $conn->query($sql);
+    $stmt = $conn->prepare($sql); //stmt = statement, $conn ထဲက နေ sql ထဲက dataတွေကို ပြန်ခွဲထုတ်တာ
+    $stmt->execute(); 
+    $latest_post = $stmt->fetch();
 ?>
 
         <!-- Page header with logo and tagline-->
@@ -28,12 +35,13 @@
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                        <a href="#!"><img class="card-img-top" src="<?= $latest_post['image']?>" alt="..." /></a>
                         <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title">Featured Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
+                            <div class="small text-muted"><?= date('F d, Y',strtotime($latest_post['created_at']))?></div>
+                            <h2 class="card-title"><?= $latest_post['title']?></h2>
+                            <p><?= substr($latest_post['description'],0,130)?>......</p>
+                            <a class="btn btn-primary" href="detail.php?id=<?= $latest_post['id']?>">Read more →</a> 
+                            <!-- ? က detail.php ကို မှာ ပြန်ခေါ်တဲ့ အခါ $_GET နဲ့ ပြန်ခေါ်လို့ ရအောင် ထည့်တာ GET Method နဲ့ ပြန်ခေါ်ချင်တယ် ဆိုရင် ? ကို ထည့်ပေးရပါတယ်  -->
                         </div>
                     </div>
                     <!-- Nested row for non-featured blog posts-->
@@ -49,7 +57,7 @@
                             <div class="card mb-4">
                                 <a href="#!"><img class="card-img-top" src="<?= $post['image']?>" alt="..." /></a>
                                 <div class="card-body">
-                                    <div class="small text-muted"><?= $post['created_at']?></div>
+                                    <div class="small text-muted"><?= date('F d, Y',strtotime($post['created_at']))?></div>
                                     <h2 class="card-title h4"><?= $post['title']?></h2>
                                     <p class="card-text"><?= substr( $post['description'],0,150)?>.....</p>
                                     <a class="btn btn-primary" href="detail.php?id=<?= $post['id'] ?>">Read more →</a>
