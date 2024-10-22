@@ -3,9 +3,8 @@
  
  include "dbconnect.php";
  
- $sql = "SELECT * FROM categories"; 
- // $stmt = $conn->query($sql);
- $stmt = $conn->prepare($sql); //stmt = statement, $conn ထဲက နေ sql ထဲက dataတွေကို ပြန်ခွဲထုတ်တာ
+ $sql = "SELECT * FROM categories "; 
+ $stmt = $conn->prepare($sql); //stmt = statement, $conn ထဲက နေ sql ထဲက dataတွေကို ပြန်ခွဲထုတ်တာ ပြန်ပြီးပြင်ဆင်ချင်တာ
  $stmt->execute(); 
  $category_tags = $stmt->fetchAll();
  
@@ -25,23 +24,21 @@
                     <div class="card mb-4">
                         <div class="card-header">Categories</div>
                         <div class="card-body">
-                            
-                            <?php
-                            foreach ( $category_tags as $category_tag) {
-                            ?>
 
                             <div class="row">
                                 <div class="col">
                                     <ul class="list-unstyled mb-0">
-                                        <li><a href="detail.php?id=<?= $category_tag['id']?>"><?= $category_tag['name']?></a></li>
+
+                                        <?php
+                                            foreach ( $category_tags as $category_tag) {
+                                        ?>
+                                            <li><a href="index.php?category_id=<?= $category_tag['id']?>"><?= $category_tag['name']?></a></li>
+                                        <?php
+                                         }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
-
-                            <?php
-                                }
-                            ?>
-
                         </div>
                     </div>
                     <!-- Side widget-->
