@@ -31,8 +31,16 @@
 
                                         <?php
                                             foreach ( $category_tags as $category_tag) {
+
+                                                $c_id = $category_tag['id'];
+                                                $sql = "SELECT COUNT(posts.category_id) 'c_count' FROM posts WHERE posts.category_id = :CID ";
+                                                $stmt = $conn->prepare($sql);
+                                                $stmt->bindParam(':CID',$c_id);
+                                                $stmt->execute();
+                                                $post = $stmt->fetch();
+                                                //var_dump($post['c_count']);
                                         ?>
-                                            <li><a href="index.php?category_id=<?= $category_tag['id']?>"><?= $category_tag['name']?></a></li>
+                                            <li><a href="index.php?category_id=<?= $category_tag['id']?>"><?= $category_tag['name']?> ( <?= $post['c_count']?> )</a></li>
                                         <?php
                                          }
                                         ?>
