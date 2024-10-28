@@ -1,8 +1,35 @@
 <?php
     include "../layouts/navbar_side.php";
+    include "../../dbconnect.php";
+
+    $sql = "SELECT * FROM categories";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $categories = $stmt->fetchAll();
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $title = $_POST['title'];
+        $category_id = $_POST['category_id'];
+        $description = $_POST['description'];
+        $user_id = 1;
+        $image = "eg.jpg";
+        // echo "$title <br> $category_id <br> $description";
+
+        $sql = "INSERT INTO posts(title,image,description,category_id,user_id) VALUES(:title,:image,:description,:category_id,:user_id)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':title',$title);
+        $stmt->bindParam(':image',$image);
+        $stmt->bindParam(':description',$description);
+        $stmt->bindParam(':category_id',$category_id);
+        $stmt->bindParam(':user_id',$user_id);
+        $stmt->execute();
+
+        header('location:posts.php');
+    }
 ?>
 
     <div class="container">
+
         <div class="mt-3 mx-2">
             <h2 class="d-inline">Posts</h2>
             <button class="btn btn-lg btn-danger float-end">Cancel</button>
@@ -13,40 +40,40 @@
                 Create Posts
             </div>
             <div class="card-body">
-                <div class="mb-3">
-                    <label for="post_title" class="form-label">Title</label>
-                    <input type="email" class="form-control" id="post_title">
-                </div>
-                <div class="mb-3">
-                    <label for="choose" class="form-label">Categories</label>
-                    <select name="" id="choose" class="form-select">
-                        <option selected>Choose.......</option>
-                        <option value="1">Web Development</option>
-                        <option value="2">AI</option>
-                        <option value="3">English Speaking</option>
-                        <option value="4">Degital Marketing</option>
-                        <option value="5">Personal Development</option>
-                        <option value="6">Professional Development</option>
-                        <option value="7">Business And Management</option>
-                        <option value="8">Accounting</option>
-                        <option value="9">HR Management</option>
-                        <option value="10">Personal Ethics and Professional Ethics
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="image_file" class="form-label">Image</label>
-                    <input type="file" name="" id="image_file" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
-                </div>
-                <div class="mb-3">
-                    <a href="" class="btn btn-primary w-100">Create</a>
-                </div>
+              <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Categories</label>
+                        <select id="category_id" class="form-select" name="category_id">
+                            <option selected>Choose.......</option>
+
+                            <?php 
+                                foreach($categories as $category){
+                            ?>
+                            <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" name="" id="image" class="form-control" name="image">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100 ">Create</button>
+                    </div>
+              </form>
             </div>
         </div>
+
     </div>
 
 <?php

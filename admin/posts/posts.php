@@ -16,7 +16,7 @@
     <div class="container my-5">
         <div class="mb-5">
             <h3 class="d-inline">Posts Lists</h3>
-            <a href="" class="btn btn-primary float-end">Create Posts</a>
+            <a href="post_create.php" class="btn btn-primary float-end">Create Posts</a>
         </div>
         <div class="card">
             <div class="card-body">
