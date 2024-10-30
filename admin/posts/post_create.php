@@ -12,8 +12,20 @@
         $category_id = $_POST['category_id'];
         $description = $_POST['description'];
         $user_id = 1;
-        $image = "eg.jpg";
+
+
+        $image_array = $_FILES['image'];
+        // var_dump($image_array);
         // echo "$title <br> $category_id <br> $description";
+
+        if(isset($image_array) && $image_array['size'] > 0){
+            $dir = "../images";
+            $image_dir = $dir.$image_array['name']; //../images/eg.jpg ဖိုင်ထဲကို တကယ် သိမ်းမည့် နေရာ
+            $image = "admin/images".$image_array['name']; // database ထဲမှာ သိမ့်မည့် ပတ်လမ်း
+            // echo $image;
+            $tmp_name = $image_array['tmp_name'];
+            move_uploaded_file($tmp_name,$image_dir);
+        }
 
         $sql = "INSERT INTO posts(title,image,description,category_id,user_id) VALUES(:title,:image,:description,:category_id,:user_id)";
         $stmt = $conn->prepare($sql);
@@ -40,7 +52,7 @@
                 Create Posts
             </div>
             <div class="card-body">
-              <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
+              <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title">
@@ -61,7 +73,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" name="" id="image" class="form-control" name="image">
+                        <input type="file" id="image" class="form-control" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
