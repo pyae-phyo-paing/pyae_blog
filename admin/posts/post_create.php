@@ -19,9 +19,9 @@
         // echo "$title <br> $category_id <br> $description";
 
         if(isset($image_array) && $image_array['size'] > 0){
-            $dir = "../images";
+            $dir = "../images/";
             $image_dir = $dir.$image_array['name']; //../images/eg.jpg ဖိုင်ထဲကို တကယ် သိမ်းမည့် နေရာ
-            $image = "admin/images".$image_array['name']; // database ထဲမှာ သိမ့်မည့် ပတ်လမ်း
+            $image = "admin/images/".$image_array['name']; // database ထဲမှာ သိမ့်မည့် ပတ်လမ်း
             // echo $image;
             $tmp_name = $image_array['tmp_name'];
             move_uploaded_file($tmp_name,$image_dir);

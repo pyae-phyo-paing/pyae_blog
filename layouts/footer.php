@@ -1,6 +1,6 @@
 <!-- Side widgets-->
  <?php
- 
+
  include "dbconnect.php";
  
  $sql = "SELECT * FROM categories "; 
@@ -9,7 +9,7 @@
  $category_tags = $stmt->fetchAll();
  
  ?>
-<div class="col-lg-4">
+            <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
                         <div class="card-header">Search</div>
@@ -21,8 +21,8 @@
                         </div>
                     </div>
                     <!-- Categories widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Categories</div>
+                <div class="card mb-4">
+                    <div class="card-header">Categories</div>
                         <div class="card-body">
 
                             <div class="row">
@@ -65,5 +65,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-    </body>
+</body>
 </html>

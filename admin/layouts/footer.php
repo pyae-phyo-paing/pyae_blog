@@ -20,6 +20,16 @@
                 ['view', ['fullscreen', 'codeview', 'help']]
                 ]
             });
+
+            $(document).ready(function(){
+                $('tbody').on('click','.delete',function(){
+                    let id = $(this).data('id');
+                    console.log(id);
+                    $('#delete_id').val(id);
+
+                    $('#deleteModal').modal('show');
+                })
+            })
     </script>
     </body>
 </html>
