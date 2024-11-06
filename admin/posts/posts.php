@@ -51,7 +51,7 @@
                             <td><?= $post['c_name'] ?></td>
                             <td><?= $post['u_name'] ?></td>
                             <td>
-                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <a href="edit_post.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                                 <button class="btn btn-sm btn-danger delete" data-id="<?= $post['id'] ?>">Delete</button>
                                 <a href="../../detail.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-primary" target="_blank">Detail</a>
                             </td>
