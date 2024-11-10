@@ -1,4 +1,6 @@
 <?php
+session_start();
+if($_SESSION['user_id']){
     include "../layouts/navbar_side.php";
     include "../../dbconnect.php";
 
@@ -11,7 +13,7 @@
         $title = $_POST['title'];
         $category_id = $_POST['category_id'];
         $description = $_POST['description'];
-        $user_id = 1;
+        $user_id = $_SESSION['user_id'];
 
 
         $image_array = $_FILES['image'];
@@ -44,7 +46,7 @@
 
         <div class="mt-3 mx-2">
             <h2 class="d-inline">Posts</h2>
-            <button class="btn btn-lg btn-danger float-end">Cancel</button>
+            <button class="btn btn-lg btn-danger float-end" onclick="return cancelAction()">Cancel</button>
             <p><a href="">Dashboard</a> / <a href="posts.php">Posts</a> / Posts</p>
         </div>
         <div class="card">
@@ -90,4 +92,7 @@
 
 <?php
     include "../layouts/footer.php";
+}else{
+    header("location:../login.php");
+}
 ?>

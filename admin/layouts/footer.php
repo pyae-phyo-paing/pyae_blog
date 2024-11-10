@@ -31,5 +31,11 @@
                 })
             })
     </script>
+    <script>
+        function cancelAction() {
+            history.back(); // Navigates to the previous page in history
+            return false;   // Prevents any other default actions
+        }
+</script>
     </body>
 </html>

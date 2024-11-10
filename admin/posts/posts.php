@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    if($_SESSION['user_id']){
     include "../layouts/navbar_side.php";
 
     include "../../dbconnect.php";
@@ -15,6 +17,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $id = $_POST['id'];
         // echo $id;
+        
         $sql = "DELETE FROM posts WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id',$id);
@@ -96,4 +99,7 @@
 
 <?php
     include "../layouts/footer.php";
+        }else{
+            header("location:../login.php");
+        }
 ?>
