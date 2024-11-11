@@ -19,6 +19,39 @@
     $stmt->execute();
     $user_permittion = $stmt->fetch();
 
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $role = $_POST['user_role'];
+
+        $image_array = $_FILES['profile'];
+
+        if(isset($image_array) && $image_array['size'] > 0){
+            $dir = "../images/";
+            $image_dir = $dir.$image_array['name']; //../images/eg.jpg ဖိုင်ထဲကို တကယ် သိမ်းမည့် နေရာ
+            $image = "images/".$image_array['name']; // database ထဲမှာ သိမ့်မည့် ပတ်လမ်း
+            // echo $image;
+            $tmp_name = $image_array['tmp_name'];
+            move_uploaded_file($tmp_name,$image_dir);
+        }else{
+            $image = $_POST['old_image'];
+        }
+
+
+        $sql = "UPDATE users SET name=:name, email=:email, password=:password, profile=:image, role=:role WHERE id =:id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id',$id);
+        $stmt->bindParam(':name',$name);
+        $stmt->bindParam(':email',$email);
+        $stmt->bindParam(':password',$password);
+        $stmt->bindParam(':image',$image);
+        $stmt->bindParam(':role',$role);
+        $stmt->execute();
+
+        header("location:users.php");
+    }
+
 
 
 
@@ -39,16 +72,16 @@
     <div class="card-body">
       <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="title" class="form-label">User Name</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?= $user['name'] ?>">
+                <label for="name" class="form-label">User Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="<?= $user['name'] ?>">
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Email Address</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?= $user['email'] ?>">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="text" class="form-control" id="email" name="email" value="<?= $user['email'] ?>">
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Password</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?= $user['password'] ?>">
+                <label for="password" class="form-label">Password</label>
+                <input type="text" class="form-control" id="password" name="password" value="<?= $user['password'] ?>">
             </div>
             <div class="mb-3">
                         <label for="user_role" class="form-label">Roles</label>
@@ -76,11 +109,11 @@
                 </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="image-tab-pane" role="tabpanel" aria-labelledby="image-tab" tabindex="0">
-                            <img src="../<?= $post['image'] ?>" alt="" class="w-50 h-50 py-5">
-                            <input type="hidden" name="old_image" id="" value="<?= $post['image'] ?>">
+                            <img src="../<?= $user['profile'] ?>" alt="" class="w-50 h-50 py-5">
+                            <input type="hidden" name="old_image" id="" value="<?= $user['profile'] ?>">
                         </div>
                         <div class="tab-pane fade" id="new_image-tab-pane" role="tabpanel" aria-labelledby="new_image-tab" tabindex="0">
-                        <input type="file" id="image" class="form-control my-5" name="image">
+                        <input type="file" id="profile" class="form-control my-5" name="profile">
                         </div>
                     </div>
             </div>

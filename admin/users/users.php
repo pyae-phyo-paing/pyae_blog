@@ -32,7 +32,6 @@
     <div class="container my-5">
     <div class="mb-5">
             <h3 class="d-inline">Users List</h3>
-            <a href="create_users.php" class="btn btn-primary float-end">Create Account</a>
         </div>
         <div class="card">
             <div class="card-body">

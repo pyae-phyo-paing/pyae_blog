@@ -61,6 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 <label for="password" class="label-control">Password</label>
                                 <input type="password" class="form-control" name="password" id="password">
                             </div>
+                                <a href="users/create_users.php" style="text-decoration: none;">Create Account!</a>
                             <div>
                                 <button class="btn btn-primary float-end" type="submit">Login</button>
                             </div>
