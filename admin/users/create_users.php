@@ -90,7 +90,7 @@
                     <a href="#" class="float-end">Forgot password?</a>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" name="role" value="Admin">
+                    <input type="hidden" name="role" value="Author">
                 </div>
                 <div class="text-center my-3">
                    <button type="submit" class="btn btn-primary w-75">Sign In</button>

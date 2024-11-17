@@ -1,30 +1,21 @@
-<?php
+<?php 
     session_start();
+
     if($_SESSION['user_id']){
-    include "../layouts/navbar_side.php";
     include "../../dbconnect.php";
+    include "../layouts/navbar_side.php";
 
-
-    $id = $_GET['user_id'];
+    
+    $id = $_GET['profile_userid'];
     $sql = "SELECT * FROM users WHERE id = :user_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':user_id',$id);
     $stmt->execute();
     $user = $stmt->fetch();
 
-    $roles = ['Admin','Author'];
-
-    $sql = "SELECT users.role FROM users INNER JOIN posts ON posts.user_id = users.id WHERE posts.user_id = :user_id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':user_id',$id);
-    $stmt->execute();
-    $user_permittion = $stmt->fetch();
-
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
-        $role = $_POST['user_role'];
 
         $image_array = $_FILES['profile'];
 
@@ -40,40 +31,34 @@
         }
 
 
-        $sql = "UPDATE users SET name=:name, email=:email, password=:password, profile=:image, role=:role WHERE id =:id";
+        $sql = "UPDATE users SET name=:name, email=:email, profile=:image WHERE id =:id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id',$id);
         $stmt->bindParam(':name',$name);
         $stmt->bindParam(':email',$email);
-        $stmt->bindParam(':password',$password);
         $stmt->bindParam(':image',$image);
-        $stmt->bindParam(':role',$role);
         $stmt->execute();
 
-        header("location:users.php");
+        header("location:profile.php");
     }
 
-
-
-
 ?>
-
 
 <div class="container">
 
 <div class="mt-3 mx-2">
-    <h2 class="d-inline">Edit Accounts</h2>
+    <h2 class="d-inline">Edit Personal Info</h2>
     <button class="btn btn-lg btn-danger float-end" onclick="return cancelAction()">Cancel</button>
-    <p><a href="">Dashboard</a> / <a href="users.php">Accounts</a> / Edit Accounts</p>
+    <!-- <p><a href="">Dashboard</a> / <a href="">Accounts</a> / Edit Accounts</p> -->
 </div>
-<div class="card">
+<div class="card my-3">
     <div class="card-header">
-        Edit Accounts
+        Edit
     </div>
     <div class="card-body">
       <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="name" class="form-label">User Name</label>
+                <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="<?= $user['name'] ?>">
             </div>
             <div class="mb-3">
@@ -81,25 +66,9 @@
                 <input type="text" class="form-control" id="email" name="email" value="<?= $user['email'] ?>">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="text" class="form-control" id="password" name="password" value="<?= $user['password'] ?>">
+                <label for="role" class="form-label">Role</label>
+                <input type="text" class="form-control" id="password" name="role" value="<?= $user['role'] ?>" readonly disabled>
             </div>
-            <div class="mb-3">
-                        <label for="user_role" class="form-label">Roles</label>
-                        <select id="user_role" class="form-select" name="user_role">
-                        <!-- <option selected>Choose.......</option> -->
-                            
-                            <?php
-                                foreach( $roles as $role ){
-                            ?>
-                        
-                            <option value="<?= $role?>"<?php if($user['role'] === $role){ echo 'selected';}?>><?= $role ?></option>
-                            
-                            <?php } ?>
-                            
-                            
-                        </select>
-                    </div>
             
             <div class="mb-3">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -133,10 +102,10 @@
 
 </div>
 
-<?php
+<?php 
 
     include "../layouts/footer.php";
-                                }else{
-                                    header("location:../login.php");
-                                }
+        }else{
+            header("location:../login.php");
+        }
 ?>
