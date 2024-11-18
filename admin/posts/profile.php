@@ -6,7 +6,7 @@
     include "../layouts/navbar_side.php";
     include "../../dbconnect.php";
 
-    // $id = $_GET['userprofile_id'];
+    // $id = $_GET['userid'];
     $current_userid = $_SESSION['user_id'];
 
     $sql = "SELECT * FROM users WHERE id = :id";

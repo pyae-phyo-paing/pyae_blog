@@ -39,7 +39,7 @@
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="../../index.php" target="_blank">Dashboard</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="../posts/posts.php">Posts</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Categories</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="../categories/categories.php">Categories</a>
                     <?php 
                         if($_SESSION['user_role'] == 'Admin'){
                     ?>

@@ -58,7 +58,7 @@
                             <td>
                                 <a href="edit_users.php?user_id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                                 <button class="btn btn-sm btn-danger delete" data-id="<?= $user['id'] ?>">Delete</button>
-                                <a href="<?= $user['profile'] ?>" class="btn btn-primary btn-sm" target="_blank">View Profile</a>
+                                <a href="view_profile.php?userid=<?= $user['id'] ?>" class="btn btn-primary btn-sm">View Profile</a>
                             </td>
                         </tr>
                         <?php
